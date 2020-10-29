@@ -16,7 +16,6 @@ export async function sendAndConfirmTransaction(
   title: string,
   connection: Connection,
   transaction: Transaction,
-  payerAccount: Account,
   ...signers: Array<Account>
 ): Promise<void> {
   const when = Date.now();
@@ -24,8 +23,8 @@ export async function sendAndConfirmTransaction(
   const signature = await realSendAndConfirmTransaction(
     connection,
     transaction,
-    payerAccount,
-    ...signers,
+    signers,
+    { preflightCommitment: 'singleGossip' }
   );
 
   const body = {
